@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedEstudos - Plataforma Completa de Medicina</title>
+    <title>MedEstudos PRO - Faculdade Online de Medicina</title>
     <style>
         :root {
             --primary-color: #007791;
@@ -110,16 +110,7 @@
             margin-top: 5px;
         }
 
-        /* Seções de Conteúdo */
-        .content-section {
-            display: none;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        /* Grid de Disciplinas */
+        /* Grid de Disciplinas Dinâmicas */
         .subjects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -135,6 +126,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            min-height: 220px;
         }
 
         .card-body h3 {
@@ -169,7 +161,7 @@
             background-color: var(--secondary-color);
         }
 
-        /* Janela Modal */
+        /* Janela Modal Expandida */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -186,7 +178,7 @@
             padding: 30px;
             border-radius: var(--border-radius);
             width: 100%;
-            max-width: 700px;
+            max-width: 800px;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
@@ -218,13 +210,25 @@
         .study-image {
             max-width: 100%;
             height: auto;
-            max-height: 250px;
+            max-height: 300px;
             border-radius: 4px;
             object-fit: contain;
         }
 
-        .topic-list { margin-top: 15px; list-style-position: inside; }
-        .topic-list li { padding: 10px 0; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+        .topic-list { 
+            margin-top: 20px; 
+            list-style-type: none;
+        }
+        
+        .topic-list li { 
+            padding: 12px 15px; 
+            border-bottom: 1px solid #eee; 
+            font-size: 0.95rem; 
+            background: #fafbfc;
+            margin-bottom: 5px;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 0 4px 4px 0;
+        }
 
         @media (max-width: 768px) {
             body { flex-direction: column; }
@@ -235,72 +239,76 @@
 </head>
 <body>
 
-    <!-- Menu Lateral por Períodos -->
+    <!-- Menu Lateral -->
     <div class="sidebar">
-        <div class="logo-area">⚕️ MedEstudos</div>
+        <div class="logo-area">⚕️ MedEstudos PRO</div>
         
         <div class="menu-title">Ciclo Básico</div>
         <div class="period-list">
-            <button class="period-item active" data-target="p1">1º Período</button>
-            <button class="period-item" data-target="p2">2º Período</button>
-            <button class="period-item" data-target="p3">3º Período</button>
-            <button class="period-item" data-target="p4">4º Período</button>
+            <button class="period-item active" data-period="p1">1º Período</button>
+            <button class="period-item" data-period="p2">2º Período</button>
+            <button class="period-item" data-period="p3">3º Período</button>
+            <button class="period-item" data-period="p4">4º Período</button>
         </div>
 
         <div class="menu-title">Ciclo Clínico</div>
         <div class="period-list">
-            <button class="period-item" data-target="p5">5º Período</button>
-            <button class="period-item" data-target="p6">6º Período</button>
-            <button class="period-item" data-target="p7">7º Período</button>
-            <button class="period-item" data-target="p8">8º Período</button>
-            <button class="period-item" data-target="p9">9º Período</button>
-            <button class="period-item" data-target="p10">10º Período</button>
+            <button class="period-item" data-period="p5">5º Período</button>
+            <button class="period-item" data-period="p6">6º Período</button>
+            <button class="period-item" data-period="p7">7º Período</button>
+            <button class="period-item" data-period="p8">8º Período</button>
+            <button class="period-item" data-period="p9">9º Período</button>
+            <button class="period-item" data-period="p10">10º Período</button>
         </div>
 
         <div class="menu-title">Internato</div>
         <div class="period-list">
-            <button class="period-item" data-target="p11">11º Período</button>
-            <button class="period-item" data-target="p12">12º Período</button>
+            <button class="period-item" data-period="p11">11º Período</button>
+            <button class="period-item" data-period="p12">12º Período</button>
         </div>
     </div>
 
-    <!-- Conteúdo Principal -->
+    <!-- Área de Conteúdo Única (Alimentada Dinamicamente) -->
     <div class="main-content">
+        <header>
+            <h1 id="pageTitle">1º Período - Introdução às Ciências Médicas</h1>
+            <p id="pageDescription">Morfologia macro e microscópica estrutural de base.</p>
+        </header>
         
-        <!-- 1º PERÍODO -->
-        <div id="p1" class="content-section active">
-            <header>
-                <h1>1º Período - Introdução às Ciências Médicas</h1>
-                <p>Morfologia macro e microscópica estrutural básica.</p>
-            </header>
-            <div class="subjects-grid">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Anatomia Humana I</h3>
-                        <p>Estudo macroscópico do aparelho locomotor: ossos, articulações e músculos esqueléticos.</p>
-                    </div>
-                    <button class="btn-study" data-name="Anatomia Humana I" data-img="https://unsplash.com" data-topics="Eixos e Planos Anatômicos,Osteologia do Esqueleto Axial e Apendicular,Artrologia e Classificações,Miologia Cabeça, Tronco e Membros">Acessar Material</button>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Histologia Geral</h3>
-                        <p>Análise morfológica dos tecidos fundamentais e microscopia celular.</p>
-                    </div>
-                    <button class="btn-study" data-name="Histologia Geral" data-img="https://unsplash.com" data-topics="Métodos de coloração e Lâminas,Tecido Epitelial,Tecido Conjuntivo Propriamente Dito,Tecidos Muscular e Nervoso">Acessar Material</button>
-                </div>
-            </div>
+        <div class="subjects-grid" id="subjectsGrid">
+            <!-- Os cards das matérias entram aqui via JavaScript -->
         </div>
+    </div>
 
-        <!-- 2º PERÍODO -->
-        <div id="p2" class="content-section">
-            <header>
-                <h1>2º Período - Consolidação Básica</h1>
-                <p>Anatomia esplâncnica e homeostase de membranas orgânicas.</p>
-            </header>
-            <div class="subjects-grid">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Anatomia Humana II</h3>
-                        <p>Anatomia dos sistemas cardiovascular, respiratório, digestório e renal.</p>
-                    </div>
-                    
+    <!-- Janela de Aula/Modal -->
+    <div class="modal-overlay" id="studyModal">
+        <div class="modal-box">
+            <span class="close-modal" id="closeModalBtn">&times;</span>
+            <h2 id="modalTitle">Nome da Matéria</h2>
+            
+            <p><strong>Representação Visual e Atlas Clínico:</strong></p>
+            <div class="study-image-container">
+                <img id="modalImage" class="study-image" src="" alt="Imagem Médica Ilustrativa">
+            </div>
+
+            <p style="margin-top:20px;"><strong>Cronograma Completo de Aulas Profundas:</strong></p>
+            <ul id="modalTopics" class="topic-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        // BANCO DE DADOS DE CURRÍCULO MÉDICO COMPLETO (DO 1º AO 12º PERÍODO)
+        const medDatabase = {
+            p1: {
+                title: "1º Período - Introdução às Ciências Médicas",
+                desc: "Construção da base anatômica, histológica e celular do corpo humano.",
+                subjects: [
+                    {
+                        name: "Anatomia Humana I",
+                        desc: "Estudo macroscópico aprofundado do aparelho locomotor e esquelético.",
+                        img: "https://unsplash.com",
+                        topics: [
+                            "Módulo 01: Posição Anatômica, Planos de Seção e Termos de Direção",
+                            "Módulo 02: Osteologia Geral: Estrutura Histofisiológica e Remodelação Óssea",
+                            "Módulo 03: Esqueleto Axial: Ossos do Crânio, Coluna Vertebral e Caixa Torácica",
+                            
