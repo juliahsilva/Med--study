@@ -1,11 +1,260 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>MED STUDY</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedAcademic - Plataforma de Estudos</title>
+    <style>
+        :root {
+            --primary: #007791;
+            --primary-hover: #005669;
+            --secondary: #00b4d8;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --border: #e2e8f0;
+            --success: #38a169;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Fixa */
+        aside {
+            width: 280px;
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ciclo-titulo {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a0aec0;
+            margin: 15px 0 5px 0;
+        }
+
+        .periodo-btn {
+            width: 100%;
+            padding: 10px 15px;
+            margin: 2px 0;
+            background: none;
+            border: none;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .periodo-btn:hover {
+            background-color: #edf2f7;
+            color: var(--primary);
+        }
+
+        .periodo-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Conteúdo Principal */
+        main {
+            margin-left: 280px;
+            flex-grow: 1;
+            padding: 40px;
+            max-width: 1200px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .search-bar {
+            width: 300px;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard de Progresso */
+        .progress-container {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .progress-bar-bg {
+            background: var(--border);
+            height: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background: var(--success);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Grid de Matérias */
+        .materias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .materia-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .materia-title {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--bg);
+            padding-bottom: 8px;
+        }
+
+        .topicos-lista {
+            list-style: none;
+        }
+
+        .topico-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .topico-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--success);
+        }
+
+        .topico-item input[type="checkbox"]:checked + span {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            aside { width: 100%; height: auto; position: relative; }
+            main { margin-left: 0; padding: 20px; }
+            header { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .search-bar { width: 100%; }
+        }
+    </style>
 </head>
 <body>
-  <h1>MED STUDY FUNCIONANDO! 🩺</h1>
-  <p>Se você está vendo esta página, o GitHub Pages está funcionando.</p>
-</body>
-</html>
+
+    <!-- Navegação Lateral por Períodos -->
+    <aside>
+        <div class="logo">🩺 MedAcademic</div>
+        
+        <div class="ciclo-titulo">Ciclo Básico</div>
+        <button class="periodo-btn active" onclick="mudarPeriodo(1)">1º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(2)">2º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(3)">3º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(4)">4º Período</button>
+
+        <div class="ciclo-titulo">Ciclo Clínico</div>
+        <button class="periodo-btn" onclick="mudarPeriodo(5)">5º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(6)">6º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(7)">7º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(8)">8º Período</button>
+
+        <div class="ciclo-titulo">Internato</div>
+        <button class="periodo-btn" onclick="mudarPeriodo(9)">9º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(10)">10º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(11)">11º Período</button>
+        <button class="periodo-btn" onclick="mudarPeriodo(12)">12º Período</button>
+    </aside>
+
+    <!-- Área de Conteúdo Principal -->
+    <main>
+        <header>
+            <div>
+                <h1 id="periodo-titulo">1º Período - Graduação</h1>
+                <p style="color: #718096;">Gerencie seu cronograma e tópicos de estudo obrigatórios.</p>
+            </div>
+            <input type="text" class="search-bar" id="search" placeholder="Buscar matéria ou tema..." oninput="filtrarMaterias()">
+        </header>
+
+        <!-- Painel de Progresso Geral do Período -->
+        <div class="progress-container">
+            <div style="display: flex; justify-content: space-between; font-weight: 600;">
+                <span>Progresso do Período Atual</span>
+                <span id="progress-text">0% Concluído</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- Container Ondes as Matérias Injetadas por JS Aparecem -->
+        <div class="materias-grid" id="materias-container"></div>
+    </main>
+
+    <script>
+        // Banco de dados completo do currículo padrão de Medicina (PBL/Tradicional adaptado)
+        const bancoDadosMedicina = {
+            1: [
+                { nome: "Anatomia Humana I", topicos: ["Introdução à Anatomia e Termos de Posição", "Sistema Esquelético e Articular", "Sistema Muscular", "Anatomia do Membro Superior", "Anatomia do Membro Inferior"] },
+                { nome: "Histologia e Embriologia", topicos: ["Métodos de Estudo em Histologia", "Tecido Epitelial e Conjuntivo", "Tecidos Especializados (Sangue, Osso)", "Fecundação e Primeira Semana de Desenvolvimento", "Organogênese e Período Fetal"] },
+                { nome: "Bioquímica Médica", topicos: ["Água, pH e Tampões Biológicos", "Estrutura e Função de Proteínas e Enzimas", "Metabolismo dos Carboidratos", "Metabolismo dos Lípides", "Bioenergética e Cadeia Respiratória"] }
+            ],
+            2: [
+                { nome: "Anatomia Humana II", topicos: ["Sistema Cardiovascular", "Sistema Respiratório", "Anatomia do Tórax", "Anatomia do Abdômen e Pelve", "Sistema Digestório"] },
+                { nome: "Fisiologia Humana I", topicos: ["Fisiologia Celular e Potencial de Membrana", "Fisiologia do Sistema Nervoso", "Fisiologia Músculo-Esquelética", "Fisiologia Cardiovascular", "Fisiologia Respiratória"] },
+                { nome: "Genética Médica", topicos: ["Bases Moleculares da Hereditariedade", "Mutações e Polimorfismos", "Herança Mendeliana e Não-Mendeliana", "Cariótipo e Anomalias Cromossômicas", "Aconselhamento Genético"] }
+            ],
+            3: [
+                { nome: "Neuroanatomia e Neurofisiologia", topicos: ["Córtex Cerebral e Áreas Funcionais", "Tronco Encefálico e Cerebelo", "Vias Medulares e Sensoriais", "Sistema Nervoso Autônomo", "Líquido Cefalorraquidiano e Barreiras Hematencefálicas"] },
+                { nome: "Imunologia Médica", topicos: ["Imunidade Inata vs Adaptativa", "Células e Órgãos do Sistema Imune", "Antígenos e Anticorpos", "Complexo Principal de Histocompatibilidade (MHC)", "Hipersensibilidades e Autoimunidade"] },
+                { nome: "Microbiologia Médica", topicos: ["Estrutura e Fisiologia Bacteriana", "Mecanismos de Patogenicidade Bacteriana", "Virologia Médica Geral", "Principais Micoses Humanas", "Controle de Crescimento Microbiano e Esterilização"] }
+            ],
+            4: [
+                { nome: "Patologia Geral", topicos: ["Lesão Celular, Morte e Adaptações", "Inflamação Aguda e Crônica", "Reparo Tecidual e Cicatrização", "Distúrbios Hemodinâmicos e Choque", "Neoplasias Benignas e Malignas"] },
