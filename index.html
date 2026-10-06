@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedEstudos - Plataforma de Medicina Avançada</title>
+    <title>MedEstudos - Plataforma Completa de Medicina</title>
     <style>
         :root {
             --primary-color: #007791;
@@ -29,8 +29,8 @@
             min-height: 100vh;
         }
 
-        /* Sidebar - Navegação por Períodos */
-        sidebar {
+        /* Menu Lateral */
+        .sidebar {
             width: 280px;
             background-color: var(--sidebar-color);
             color: var(--white);
@@ -67,6 +67,8 @@
         }
 
         .period-item {
+            display: block;
+            width: 100%;
             padding: 10px 15px;
             margin: 3px 0;
             border-radius: var(--border-radius);
@@ -74,16 +76,19 @@
             transition: all 0.2s ease;
             font-size: 0.95rem;
             color: #ecf0f1;
+            border: none;
+            background: none;
+            text-align: left;
         }
 
         .period-item:hover, .period-item.active {
-            background-color: var(--primary-color);
-            color: var(--white);
+            background-color: var(--primary-color) !important;
+            color: var(--white) !important;
             font-weight: 600;
         }
 
-        /* Main Content */
-        main {
+        /* Conteúdo Principal */
+        .main-content {
             margin-left: 280px;
             flex: 1;
             padding: 40px;
@@ -105,19 +110,13 @@
             margin-top: 5px;
         }
 
-        /* Container de Matérias */
+        /* Seções de Conteúdo */
         .content-section {
             display: none;
         }
 
         .content-section.active {
             display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Grid de Disciplinas */
@@ -133,15 +132,9 @@
             padding: 22px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             border-top: 4px solid var(--primary-color);
-            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
         .card-body h3 {
@@ -165,7 +158,6 @@
             padding: 10px 15px;
             border-radius: 5px;
             text-align: center;
-            text-decoration: none;
             font-size: 0.85rem;
             font-weight: bold;
             cursor: pointer;
@@ -177,13 +169,13 @@
             background-color: var(--secondary-color);
         }
 
-        /* Janela Modal Dinâmica */
+        /* Janela Modal */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.7);
-            z-index: 100;
+            z-index: 1000;
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -199,12 +191,6 @@
             overflow-y: auto;
             position: relative;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            animation: scaleUp 0.3s ease;
-        }
-
-        @keyframes scaleUp {
-            from { transform: scale(0.95); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
         }
 
         .close-modal {
@@ -240,49 +226,49 @@
         .topic-list { margin-top: 15px; list-style-position: inside; }
         .topic-list li { padding: 10px 0; border-bottom: 1px solid #eee; font-size: 0.95rem; }
 
-        /* Responsividade */
         @media (max-width: 768px) {
             body { flex-direction: column; }
-            sidebar { width: 100%; height: auto; position: relative; }
-            main { margin-left: 0; padding: 20px; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { margin-left: 0; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
     <!-- Menu Lateral por Períodos -->
-    <sidebar>
+    <div class="sidebar">
         <div class="logo-area">⚕️ MedEstudos</div>
         
         <div class="menu-title">Ciclo Básico</div>
-        <ul class="period-list">
-            <li class="period-item active" onclick="switchPeriod(this, 'p1')">1º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p2')">2º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p3')">3º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p4')">4º Período</li>
-        </ul>
+        <div class="period-list">
+            <button class="period-item active" data-target="p1">1º Período</button>
+            <button class="period-item" data-target="p2">2º Período</button>
+            <button class="period-item" data-target="p3">3º Período</button>
+            <button class="period-item" data-target="p4">4º Período</button>
+        </div>
 
         <div class="menu-title">Ciclo Clínico</div>
-        <ul class="period-list">
-            <li class="period-item" onclick="switchPeriod(this, 'p5')">5º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p6')">6º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p7')">7º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p8')">8º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p9')">9º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p10')">10º Período</li>
-        </ul>
+        <div class="period-list">
+            <button class="period-item" data-target="p5">5º Período</button>
+            <button class="period-item" data-target="p6">6º Período</button>
+            <button class="period-item" data-target="p7">7º Período</button>
+            <button class="period-item" data-target="p8">8º Período</button>
+            <button class="period-item" data-target="p9">9º Período</button>
+            <button class="period-item" data-target="p10">10º Período</button>
+        </div>
 
         <div class="menu-title">Internato</div>
-        <ul class="period-list">
-            <li class="period-item" onclick="switchPeriod(this, 'p11')">11º Período</li>
-            <li class="period-item" onclick="switchPeriod(this, 'p12')">12º Período</li>
-        </ul>
-    </sidebar>
+        <div class="period-list">
+            <button class="period-item" data-target="p11">11º Período</button>
+            <button class="period-item" data-target="p12">12º Período</button>
+        </div>
+    </div>
 
-    <!-- Área de Conteúdo Principal -->
-    <main>
+    <!-- Conteúdo Principal -->
+    <div class="main-content">
+        
         <!-- 1º PERÍODO -->
-        <section id="p1" class="content-section active">
+        <div id="p1" class="content-section active">
             <header>
                 <h1>1º Período - Introdução às Ciências Médicas</h1>
                 <p>Morfologia macro e microscópica estrutural básica.</p>
@@ -293,14 +279,28 @@
                         <h3>Anatomia Humana I</h3>
                         <p>Estudo macroscópico do aparelho locomotor: ossos, articulações e músculos esqueléticos.</p>
                     </div>
-                    <button class="btn-study" onclick="openSubject('Anatomia Humana I', 'https://unsplash.com', ['Eixos e Planos Anatômicos', 'Osteologia do Esqueleto Axial e Apendicular', 'Artrologia e Classificações', 'Miologia Cabeça, Tronco e Membros'])">Acessar Material</button>
+                    <button class="btn-study" data-name="Anatomia Humana I" data-img="https://unsplash.com" data-topics="Eixos e Planos Anatômicos,Osteologia do Esqueleto Axial e Apendicular,Artrologia e Classificações,Miologia Cabeça, Tronco e Membros">Acessar Material</button>
                 </div>
                 <div class="card">
                     <div class="card-body">
                         <h3>Histologia Geral</h3>
                         <p>Análise morfológica dos tecidos fundamentais e microscopia celular.</p>
                     </div>
-                    <button class="btn-study" onclick="openSubject('Histologia Geral', 'https://unsplash.com', ['Métodos de coloração e Lâminas', 'Tecido Epitelial', 'Tecido Conjuntivo Propriamente Dito', 'Tecidos Muscular e Nervoso'])">Acessar Material</button>
+                    <button class="btn-study" data-name="Histologia Geral" data-img="https://unsplash.com" data-topics="Métodos de coloração e Lâminas,Tecido Epitelial,Tecido Conjuntivo Propriamente Dito,Tecidos Muscular e Nervoso">Acessar Material</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- 2º PERÍODO -->
+        <div id="p2" class="content-section">
+            <header>
+                <h1>2º Período - Consolidação Básica</h1>
+                <p>Anatomia esplâncnica e homeostase de membranas orgânicas.</p>
+            </header>
+            <div class="subjects-grid">
                 <div class="card">
+                    <div class="card-body">
+                        <h3>Anatomia Humana II</h3>
+                        <p>Anatomia dos sistemas cardiovascular, respiratório, digestório e renal.</p>
+                    </div>
                     
